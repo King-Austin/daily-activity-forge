@@ -36,29 +36,29 @@ jobs:
           ALGO_COUNT=$(ls algos/ 2>/dev/null | grep -c "^${SINCE:0:7}" || echo 0)
           LOG_COUNT=$(ls devlog/ 2>/dev/null | grep -c "^${SINCE:0:7}" || echo 0)
 
-          cat > "summaries/week-${WEEK}.md" << EOF
-          # Weekly Summary — ${WEEK}
-
-          _Generated $(date -u +%Y-%m-%d\ %H:%M\ UTC)_
-
-          ## Activity This Week
-
-          | Type | Count |
-          |------|-------|
-          | TIL entries | ${TIL_COUNT} |
-          | Algorithm snippets | ${ALGO_COUNT} |
-          | Dev log entries | ${LOG_COUNT} |
-
-          ## Recent TIL Entries
-
-          $(ls til/ 2>/dev/null | tail -5 | sed 's/^/- /')
-
-          ## Recent Algorithms
-
-          $(ls algos/ 2>/dev/null | tail -5 | sed 's/^/- /')
-          EOF
-
           mkdir -p summaries
+
+          cat > "summaries/week-${WEEK}.md" << EOF
+# Weekly Summary — ${WEEK}
+
+_Generated $(date -u +"%Y-%m-%d %H:%M UTC")_
+
+## Activity This Week
+
+| Type | Count |
+|------|-------|
+| TIL entries | ${TIL_COUNT} |
+| Algorithm snippets | ${ALGO_COUNT} |
+| Dev log entries | ${LOG_COUNT} |
+
+## Recent TIL Entries
+
+$(ls til/ 2>/dev/null | tail -5 | sed 's/^/- /')
+
+## Recent Algorithms
+
+$(ls algos/ 2>/dev/null | tail -5 | sed 's/^/- /')
+EOF
           git add -A
           git commit -m "docs: weekly summary ${WEEK}"
           git push origin $BRANCH

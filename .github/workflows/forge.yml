@@ -40,7 +40,7 @@ jobs:
       - name: Commit changes
         run: |
           git config user.name "King-Austin"
-          git config user.email "kingaustin31415926@gmail.com"
+          git config user.email "nworahebuka.a@gmail.com"
           git add -A
           HOUR=$(date -u +%H)
           DATE=$(date -u +%Y-%m-%d)

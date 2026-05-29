@@ -27,7 +27,7 @@ jobs:
           echo "week=${WEEK}" >> $GITHUB_OUTPUT
 
           git config user.name "King-Austin"
-          git config user.email "kingaustin31415926@gmail.com"
+          git config user.email "nworahebuka.a@gmail.com"
           git checkout -b $BRANCH
 
           # Count activity this week

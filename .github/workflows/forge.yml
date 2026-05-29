@@ -1,0 +1,57 @@
+name: Activity Forge
+
+on:
+  schedule:
+    # Every 3 hours, all day every day
+    - cron: '0 0 * * *'
+    - cron: '0 3 * * *'
+    - cron: '0 6 * * *'
+    - cron: '0 9 * * *'
+    - cron: '0 12 * * *'
+    - cron: '0 15 * * *'
+    - cron: '0 18 * * *'
+    - cron: '0 21 * * *'
+  workflow_dispatch:  # manual trigger for testing
+
+jobs:
+  forge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run cycle
+        id: cycle
+        run: |
+          cd scripts
+          python run_cycle.py 2>&1 | tee /tmp/cycle_output.txt
+          echo "output=$(tail -1 /tmp/cycle_output.txt)" >> $GITHUB_OUTPUT
+
+      - name: Commit changes
+        run: |
+          git config user.name "King-Austin"
+          git config user.email "kingaustin31415926@gmail.com"
+          git add -A
+          HOUR=$(date -u +%H)
+          DATE=$(date -u +%Y-%m-%d)
+          # pick a commit prefix that looks like real dev work
+          case $HOUR in
+            0|3|6|9)   PREFIX="docs: add TIL entry" ;;
+            12|15)     PREFIX="feat: add algorithm snippet" ;;
+            18|21)     PREFIX="chore: devlog update" ;;
+            *)         PREFIX="chore: cycle update" ;;
+          esac
+          git diff --cached --quiet || git commit -m "${PREFIX} ${DATE} $(date -u +%H:%M)"
+
+      - name: Push
+        run: git push origin main

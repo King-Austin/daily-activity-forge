@@ -1,6 +1,6 @@
 """
 Sliding Window Max Subarray Sum
-Generated: 2026-06-07 15:12 UTC
+Generated: 2026-06-07 15:39 UTC
 """
 
 def max_subarray_sum(arr: list, k: int) -> int:

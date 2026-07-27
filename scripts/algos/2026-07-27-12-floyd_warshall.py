@@ -1,6 +1,6 @@
 """
 Floyd-Warshall All-Pairs Shortest Path
-Generated: 2026-07-27 12:18 UTC
+Generated: 2026-07-27 12:44 UTC
 """
 
 def floyd_warshall(n: int, edges: list) -> list:

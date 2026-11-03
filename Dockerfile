@@ -1,7 +1,7 @@
 FROM python:3.12-alpine
 
-# Install git and github-cli
-RUN apk add --no-cache git github-cli
+# Install git, github-cli, and tini (reaps zombie processes)
+RUN apk add --no-cache git github-cli tini
 
 WORKDIR /app
 
@@ -17,4 +17,4 @@ RUN chmod +x run_forge.sh run_weekly.sh
 
 # Configure entrypoint to setup git credentials and remote before starting the scheduler
 # We use an inline script to setup git dynamically when the container starts using env vars
-ENTRYPOINT ["/bin/sh", "-c", "git config --global user.name \"$GIT_USER_NAME\" && git config --global user.email \"$GIT_USER_EMAIL\" && git config --global --add safe.directory /app && (git remote set-url origin https://${GITHUB_TOKEN}@github.com/King-Austin/daily-activity-forge.git || git remote add origin https://${GITHUB_TOKEN}@github.com/King-Austin/daily-activity-forge.git) && python3 scheduler.py"]
+ENTRYPOINT ["/sbin/tini", "--", "/bin/sh", "-c", "git config --global user.name \"$GIT_USER_NAME\" && git config --global user.email \"$GIT_USER_EMAIL\" && git config --global --add safe.directory /app && (git remote set-url origin https://${GITHUB_TOKEN}@github.com/King-Austin/daily-activity-forge.git || git remote add origin https://${GITHUB_TOKEN}@github.com/King-Austin/daily-activity-forge.git) && python3 scheduler.py"]

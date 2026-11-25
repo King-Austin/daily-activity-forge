@@ -16,7 +16,7 @@ def ask_groq(prompt: str) -> str:
     }
     
     data = {
-        "model": "llama-3.1-8b-instant",
+        "model": os.environ.get("GROQ_MODEL", "openai/gpt-oss-20b"),
         "messages": [
             {
                 "role": "system",

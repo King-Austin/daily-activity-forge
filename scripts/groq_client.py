@@ -16,7 +16,7 @@ def ask_groq(prompt: str) -> str:
     }
     
     data = {
-        "model": os.environ.get("GROQ_MODEL", "openai/gpt-oss-20b"),
+        "model": os.environ.get("GROQ_MODEL", "qwen/qwen3.8-27b"),
         "messages": [
             {
                 "role": "system",
@@ -28,7 +28,7 @@ def ask_groq(prompt: str) -> str:
             }
         ],
         "temperature": 0.7,
-        "max_tokens": 512
+        "max_tokens": 1024
     }
     
     try:

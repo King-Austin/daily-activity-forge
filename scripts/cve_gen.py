@@ -44,6 +44,10 @@ def main():
                 prompt = f"I am maintaining a developer log. I just saw a cybersecurity update titled: '{title}'. The link is {url}. Write a concise, 2-3 sentence devlog entry summarizing the potential threat or technical insight here. Keep it professional and act as if I am keeping tabs on industry security."
                 
                 content = groq_client.ask_groq(prompt)
+
+                if not content or len(content.strip()) < 40:
+                    print(f"cve_gen: empty generation for {post_id}, skipping")
+                    continue
                 
                 now = datetime.now(timezone.utc)
                 date_str = now.strftime("%Y-%m-%d")

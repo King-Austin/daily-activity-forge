@@ -7,6 +7,8 @@ git fetch origin main
 git checkout main
 git pull origin main
 
+sh scripts/prune_old.sh
+
 WEEK=$(date -u +%Y-W%V)
 BRANCH="weekly-summary-${WEEK}"
 

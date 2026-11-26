@@ -41,6 +41,10 @@ def main():
                 prompt = f"I just read this trending Hacker News article titled: '{title}'. The URL is {url}. Write a short, single-paragraph 'Today I Learned' (TIL) entry about the potential implications or technical takeaways of this news for a software developer. Do not use generic filler, make it sound like a real developer's note."
                 
                 content = groq_client.ask_groq(prompt)
+
+                if not content or len(content.strip()) < 40:
+                    print(f"news_gen: empty generation for {item_id}, skipping")
+                    continue
                 
                 # Write to file
                 now = datetime.now(timezone.utc)

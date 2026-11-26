@@ -6,8 +6,7 @@ def ask_groq(prompt: str) -> str:
     """Sends a prompt to Groq and returns the response."""
     api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
-        print("Warning: GROQ_API_KEY not set. Returning fallback content.")
-        return "No API Key provided. This is a fallback generation."
+        raise RuntimeError("GROQ_API_KEY not set")
         
     url = "https://api.groq.com/openai/v1/chat/completions"
     headers = {
@@ -39,4 +38,4 @@ def ask_groq(prompt: str) -> str:
         return response.json()["choices"][0]["message"]["content"].strip()
     except Exception as e:
         print(f"Groq API Error: {e}")
-        return f"Failed to generate content: {e}"
+        raise
